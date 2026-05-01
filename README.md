@@ -6,7 +6,9 @@ Convert resource files (PNG, JPEG, binary, etc.) into Go source files containing
 
 `goconvres` is a command-line tool that reads any input file and generates a Go source file containing a `[]byte` variable with the file's contents. This is useful for embedding static resources directly into Go binaries without using external tools like `go:embed` (available in Go 1.16+) or packing systems.
 
-The generated file includes a package declaration, and a variable holding the byte data formatted with a configurable number of columns for readability.
+The generated file includes a package declaration, and a variable holding the byte data formatted with a configurable number of columns for readability. 
+
+To prevent memory exhaustion, `goconvres` enforces a maximum input file size limit of 10 MB.
 
 ## Installation
 

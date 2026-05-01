@@ -16,6 +16,9 @@ import (
 	"github.com/urfave/cli/v3"
 )
 
+// maxInputSize is the maximum allowed size for input files to prevent memory exhaustion.
+const maxInputSize = 10 * 1024 * 1024
+
 func action(c context.Context, cmd *cli.Command) error {
 	if cmd.Args().Len() != 2 {
 		return errors.New("input and output arguments are mandatory")
@@ -44,6 +47,15 @@ func action(c context.Context, cmd *cli.Command) error {
 }
 
 func loadInputFile(input string) ([]byte, error) {
+	info, err := os.Stat(input)
+	if err != nil {
+		return nil, fmt.Errorf("unable to stat file '%s': %w", input, err)
+	}
+
+	if info.Size() > maxInputSize {
+		return nil, fmt.Errorf("file '%s' exceeds maximum allowed size of %d bytes", input, maxInputSize)
+	}
+
 	data, err := os.ReadFile(input)
 	if err != nil {
 		return nil, fmt.Errorf("unable to read file '%s': %w", input, err)

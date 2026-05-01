@@ -88,3 +88,31 @@ func TestRunMain(t *testing.T) {
 	err = parseCLI()
 	assert.Error(t, err)
 }
+
+func TestFileSizeLimit(t *testing.T) {
+	t.Parallel()
+
+	progname := "goconvres"
+	currentdir, _ := filepath.Abs(filepath.Dir(os.Args[0]))
+
+	// Create a file larger than the maxInputSize (10 MB)
+	largeInput := filepath.Join(currentdir, "largefile.bin")
+	largeData := make([]byte, maxInputSize+1) // One byte over the limit
+
+	err := os.WriteFile(largeInput, largeData, 0644)
+	assert.NoError(t, err)
+	defer os.Remove(largeInput) // Clean up
+
+	output := filepath.Join(currentdir, "largefile.go")
+	os.Args = []string{
+		progname,
+		"--name", "test",
+		"--package", "testpkg",
+		largeInput,
+		output,
+	}
+
+	err = parseCLI()
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "exceeds maximum allowed size")
+}
