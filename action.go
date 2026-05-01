@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"encoding/hex"
 	"errors"
 	"fmt"
@@ -12,18 +13,18 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/urfave/cli/v2"
+	"github.com/urfave/cli/v3"
 )
 
-func action(c *cli.Context) error {
-	if c.Args().Len() != 2 {
+func action(c context.Context, cmd *cli.Command) error {
+	if cmd.Args().Len() != 2 {
 		return errors.New("input and output arguments are mandatory")
 	}
-	input := c.Args().Get(0)
-	output := c.Args().Get(1)
-	pack := c.String("package")
-	name := c.String("name")
-	ncols := c.Int("ncols")
+	input := cmd.Args().Get(0)
+	output := cmd.Args().Get(1)
+	pack := cmd.String("package")
+	name := cmd.String("name")
+	ncols := cmd.Int("ncols")
 
 	data, err := loadInputFile(input)
 	if err != nil {
