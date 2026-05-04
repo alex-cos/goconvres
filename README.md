@@ -1,12 +1,18 @@
 # goconvres
 
+[![Go Version](https://img.shields.io/badge/Go-1.25%2B-blue)](https://go.dev/)
+[![Test Status](https://github.com/alex-cos/goconvres/actions/workflows/test.yml/badge.svg)](https://github.com/alex-cos/goconvres/actions/workflows/test.yml)
+[![Lint Status](https://github.com/alex-cos/goconvres/actions/workflows/lint.yml/badge.svg)](https://github.com/alex-cos/goconvres/actions/workflows/lint.yml)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Go Report Card](https://goreportcard.com/badge/github.com/alex-cos/goconvres)](https://goreportcard.com/report/github.com/alex-cos/goconvres)
+
 Convert resource files (PNG, JPEG, binary, etc.) into Go source files containing byte arrays.
 
 ## Description
 
 `goconvres` is a command-line tool that reads any input file and generates a Go source file containing a `[]byte` variable with the file's contents. This is useful for embedding static resources directly into Go binaries without using external tools like `go:embed` (available in Go 1.16+) or packing systems.
 
-The generated file includes a package declaration, and a variable holding the byte data formatted with a configurable number of columns for readability. 
+The generated file includes a package declaration, and a variable holding the byte data formatted with a configurable number of columns for readability.
 
 To prevent memory exhaustion, `goconvres` enforces a maximum input file size limit of 10 MB.
 

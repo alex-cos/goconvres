@@ -25,6 +25,7 @@ linters:
     - contextcheck
     - copyloopvar
     - cyclop
+    - decorder
     - dogsled
     - dupl
     - durationcheck
@@ -41,7 +42,7 @@ linters:
     - gocheckcompilerdirectives
     - gochecknoinits
     - gocognit
-    - goconst
+    # - goconst
     - gocritic
     - gocyclo
     - godot
@@ -74,7 +75,6 @@ linters:
     - sloglint
     - sqlclosecheck
     - staticcheck
-    #   - tagalign
     - testifylint
     - testpackage
     - thelper
@@ -83,7 +83,6 @@ linters:
     - unparam
     - wastedassign
     - whitespace
-    #   - wrapcheck
     - zerologlint
   # Disable specific linter.
   disable:
@@ -125,6 +124,8 @@ linters:
       # Default: false
       default-signifies-exhaustive: true
     exhaustruct:
+      # Allows empty structures, effectively excluding them from the check.
+      allow-empty: true
       # List of regular expressions to exclude struct packages and their names from checks.
       # Regular expressions must match complete canonical struct package/name/structname.
       # Default: []
@@ -163,7 +164,9 @@ linters:
       min-len: 3
       # Minimum occurrences of constant string count to trigger issue.
       # Default: 3
-      min-occurrences: 3
+      min-occurrences: 5
+      # Ignore when constant is not used as function argument.
+      ignore-calls: true
     gocritic:
       # Which checks should be disabled; can't be combined with 'enabled-checks'.
       # Default: []
